@@ -1,9 +1,21 @@
 import Rating from '../components/Rating';
+import axios from 'axios'
+import{useEffect} from 'react'
 import {Link} from 'react-router-dom'
-import data from '../data'
+let data = []
 
 
 const ProductPage = (props) =>{
+    useEffect(() => {
+      console.log("came here")
+      axios
+        .get("/api/products")
+        .then((response) => {
+          data = response;
+          console.log("came here",data)
+        })
+        .catch((err) => console.log(err));
+    }, []);
     const product = data.products.find((x) => {
       return(
         x._id === props.match.params.id
@@ -57,7 +69,7 @@ const ProductPage = (props) =>{
                       {product.countInStock > 0 ? (
                         <span className="success">In Stock</span>
                       ) : (
-                        <span className="error">Unavailable</span>
+                        <span className="danger">Unavailable</span>
                       )}
                     </div>
                   </div>

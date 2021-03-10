@@ -178,6 +178,9 @@ img.large{
     width: 100%;
 }
 
+img.loader{
+    margin: auto;
+}
 .card{
     border: 0.1rem var(--lblue) solid ;
     border-radius: 0.5rem;
@@ -211,7 +214,19 @@ img.large{
 .success{
     color: green;
 }
-.error{
+.danger{
     color:#e63946ff;
 }
-
+.alert{
+    padding:1rem;
+    border:0.1rem solid transparent;
+    border-radius: 0.5rem;
+}
+.alert-info{
+    color: var(--dblue);
+    background-color: var(--white);
+}
+.alert-danger{
+    color: var(--red);
+    background-color: var(--white);
+}
