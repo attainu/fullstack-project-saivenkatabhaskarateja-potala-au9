@@ -1,0 +1,155 @@
+
+
+/* 
+--red: #e63946ff;
+--white: #f1faeeff;
+--pblue: #a8dadcff;
+--lblue: #457b9dff;
+--dblue: #1d3557ff;
+ */
+
+html{
+     font-size: 62.5%;  /*default fontsize of browser is 16px and 62.5% will be 10px and 1rem = 10px */
+}
+
+
+body{
+    --red: #e63946ff;
+    --white: #f1faeeff;
+    --pblue: #a8dadcff;
+    --lblue: #457b9dff;
+    --dblue: #1d3557ff;
+    box-sizing: border-box;
+    margin:0;
+    font-size: 1.6rem;
+    height:100vh;
+    font-family:Helvetica,Arial,sans-serif;
+    -webkit-font-smooting: antialiased;
+    -moz-osx-font-smoothing:grayscale;
+}
+
+#root{
+    height:100%
+}
+
+.grid-container{
+    display: grid;
+    grid-template-areas: 
+    'header'
+    'main'
+    'footer';
+    grid-template-columns: 1fr;
+    grid-template-rows: 5rem 1fr 5rem;
+    height: 100%;
+}
+
+header{
+    grid-area: header;
+    background-color: #e63946ff;
+}
+
+main{
+    grid-area: main;
+    padding: 1rem;
+}
+
+footer{
+    grid-area:footer ;
+    background-color: #e63946ff;
+    text-align: center;
+    color: #f1faeeff;
+    font-weight: bold;
+}
+
+.row{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.row.center{
+    justify-content: center;
+}
+/* common css */
+
+h1 {
+  font-size: 1.8rem;
+  padding: 1rem 0;
+}
+h2 {
+  font-size: 1.6rem;
+  padding: 1rem 0;
+  margin: 0;
+}
+a{
+    text-decoration: none;
+    color: #1d3557ff;
+}
+a:hover{
+    color: #457b9dff
+}
+/* end of common css */
+a.brand{
+    font-size: 3rem;
+    font-weight: bold;
+    color:#f1faeeff
+}
+
+header a{
+    padding: 1rem;
+    font-weight: bold;
+}
+
+.cart a{
+    color:#f1faeeff
+}
+
+.copyright{
+    font-size: 3rem;
+    font-weight: bold;
+    margin: 1rem;
+    
+}
+
+.fa-shopping-basket{
+    color: #1d3557ff;
+    margin-left: 1rem;
+}
+
+/* image */
+img{
+    border-radius: 0.5rem;
+}
+
+img.medium{
+    max-width: 29rem;
+    width: 100%;
+}
+
+.card{
+    border: 0.1rem var(--lblue) solid ;
+    border-radius: 0.5rem;
+    margin:1rem;
+    -webkit-box-shadow: 10px 12px 11px -3px rgba(224,58,72,1);
+    -moz-box-shadow: 10px 12px 11px -3px rgba(224,58,72,1);
+    box-shadow: 10px 12px 11px -3px rgba(224,58,72,1);
+
+}
+.card-body{
+    padding:1rem;
+}
+.card-body > * {
+    margin-bottom: 0.5rem;
+}
+
+.price{
+    font-size: 2rem;
+    color:var(--dblue)
+}
+
+.rating i{
+    color: gold;
+    margin: 0.1rem;
+}
+
