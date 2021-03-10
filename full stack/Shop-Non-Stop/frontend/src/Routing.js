@@ -1,7 +1,7 @@
-import {BrowserRouter,Route} from 'react-router-dom'
-import data from './data'
-import Product from './components/Product'
-import './index.css'
+import {BrowserRouter,Route,Link} from 'react-router-dom'
+import HomePage from './pages/HomePage'
+import ProductPage from './pages/ProductPage'
+import "./index.css";
 
 const Routing = () =>{
 
@@ -10,23 +10,18 @@ const Routing = () =>{
         <div className="grid-container">
           <header className="row">
             <div>
-              <a className="brand" href="index.html">
-                Shop-N-Stop<i className="fas fa-shopping-basket"></i>
-              </a>
+              <Link className="brand" to="index.html">
+                Shop-Non-Stop<i className="fas fa-shopping-basket"></i>
+              </Link>
             </div>
             <div className="cart">
-              <a href="cart.html">Cart</a>
-              <a href="signin.html">Sign In</a>
+              <Link to="cart.html">Cart</Link>
+              <Link to="signin.html">Sign In</Link>
             </div>
           </header>
           <main>
-            <div className="row center">
-              {data.products.map((product) => {
-                return (
-                 <Product key={product._id} product={product}/>
-                );
-              })}
-            </div>
+            <Route path="/" exact component={HomePage} />
+            <Route path="/product/:id" component={ProductPage} />
           </main>
           <footer className="row center">
             <i className="fas fa-copyright copyright"></i>All rights reserved
