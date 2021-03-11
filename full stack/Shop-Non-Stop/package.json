@@ -1,17 +1,21 @@
 {
   "name": "Shop-N-Stop",
-  "type":"module",
+  "type": "module",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start":"nodemon --watch backend  node --experimental-modules backend/app.js"
+    "start": "nodemon --watch backend  node --experimental-modules backend/app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.21.0",
+    "eslint-plugin-react": "^7.22.0"
   }
 }

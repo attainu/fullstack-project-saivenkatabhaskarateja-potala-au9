@@ -1,30 +1,29 @@
 import Product from '../components/Product'
-import axios from 'axios'
-import {useState,useEffect} from 'react'
+import {useSelector,useDispatch} from 'react-redux'
+import {useEffect} from 'react'
 import LoadingBox from '../components/LoadingBox'
 import MessageBox from '../components/MessageBox'
-
+import {listProducts} from "../redux/actions/productActions";
 
 const HomePage = () => {
 
-  const [products,setProducts] = useState([])
-  const [loading, setLoading] = useState(false);
-  const [error,setError] = useState(false)
-
-
+  const productList =  useSelector(state => {
+    return state.productList;
+  })
+  console.log("came to re-render,productslist",productList)
+  const { products, loading, error } = productList;
+ 
+  const dispatch = useDispatch()
     
 
   const display = (products) =>{
      if (loading) {
-       console.log("came inside loading");
        return <LoadingBox />;
      } 
      else if (error) {
-       console.log("came inside error")
        return <MessageBox variant="danger">{error}</MessageBox>;
      } 
      else {
-       console.log("came inside render")
        return (
          <div className="row center">
            {products.map((product) => {
@@ -35,7 +34,8 @@ const HomePage = () => {
      }
   }
   useEffect(() => {
-    
+    dispatch(listProducts());
+
     // console.log("came before set loading",loading)
     // setLoading(true)
     // console.log("came after set loading",loading);
@@ -49,30 +49,26 @@ const HomePage = () => {
     //   })
     //   .catch((err) => {
     //     setError(err.message);
-        
+
     //   });
     //   console.log("came after axios");
-    
-    const fetch = async() =>{
-      try
-      { 
-        setLoading(true);
-        const { data } = await axios.get("/api/products");
-        setLoading(false);
-        setProducts(data);} 
-        
-        catch(err){
-        setError(err.message)
-        setLoading(false)  
-      } 
 
+    // const fetch = async() =>{
+    //   try
+    //   {
+    //     setLoading(true);
+    //     const { data } = await axios.get("/api/products");
+    //     setLoading(false);
+    //     setProducts(data);}
 
-      
-    }
-    fetch()
-    
-    
-  },[])
+    //     catch(err){
+    //     setError(err.message)
+    //     setLoading(false)
+    //   }
+
+    // }
+    // fetch()
+  }, [dispatch]);
 
     return (
       <div>

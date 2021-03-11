@@ -17,7 +17,7 @@ const Product = (props) =>{
             </Link>
             <Rating rating={product.rating} numReviews={product.numReviews} />
             <div className="price">
-              <i className="fas fa-rupee-sign">{product.price}</i>
+              <i className="fas fa-rupee-sign">{product.price}/-</i>
             </div>
           </div>
         </div>
