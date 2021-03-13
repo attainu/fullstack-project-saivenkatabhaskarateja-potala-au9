@@ -1,6 +1,6 @@
 import Rating from '../components/Rating';
 import {useSelector,useDispatch} from 'react-redux'
-import{useEffect} from 'react'
+import{useEffect,useState} from 'react'
 import {Link} from 'react-router-dom'
 import {detailsProduct} from '../redux/actions/productActions'
 import LoadingBox from '../components/LoadingBox'
@@ -13,13 +13,20 @@ const ProductPage = (props) =>{
     const productId = props.match.params.id
     const productDetails = useSelector((state) => state.productDetails);
     const{loading,error,product} = productDetails;
+    const[qty,setQty] = useState(1)
     useEffect(() => {
         dispatch(detailsProduct(productId));
 
     }, [dispatch,productId]);
 
+    const changeHandler = (value) => {
+      let newValue = Number(value)
+      setQty(newValue);
+    };
 
-
+    const cartHandler = () =>{
+      props.history.push(`/cart/${productId}?qty=${qty}`);
+    }
     return (
       <div>
         {loading ? (
@@ -77,9 +84,29 @@ const ProductPage = (props) =>{
                         </div>
                       </div>
                     </li>
-                    <li>
-                      <button className="primary block">Add to Cart</button>
+                    <>
+                    {product.countInStock>0 
+                    ? <>
+                        <li>
+                      <div className="row">
+                        <div>Qty</div>
+                        <div>
+                          <select value={qty} onChange={(e) => changeHandler(e.target.value)}>
+                            {[...Array(product.countInStock).keys()].map((key) =>{
+                              return <option key={key+1}>{key+1}</option>
+                            })}
+                          </select>
+                        </div>
+                      </div>
                     </li>
+                    <li>
+                      <button onClick={cartHandler} className="primary block">Add to Cart</button>
+                    </li>
+                      </>
+                      : <div></div>
+                      }
+                    
+                    </>
                   </ul>
                 </div>
               </div>

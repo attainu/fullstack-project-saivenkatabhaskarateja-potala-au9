@@ -1,19 +1,33 @@
 import express from 'express'
 import data from './data.js'
+import mongoose from 'mongoose'
+import userRouter from './routers/userRouter.js'
+import productRouter from './routers/productRouter.js'
 const port = process.env.PORT || 5000
 const app = express()
 
+mongoose.connect(process.env.MONGODB_URL || "mongodb://localhost/ShopNonStop", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+});
+
+//api for users data
+app.use("/api/users", userRouter);
+
+//api for porducts data
+app.use("/api/products",productRouter)
+
+app.use((err,req,res,next)=>{
+    res.status(500).send({message:err.message})
+})
 
 // healthcheck
 app.get('/',(req,res)=>{
     res.send("server is ready")
 })
 
- 
-//api for product list data -  homepage
-app.get('/api/products',(req,res)=>{
-    res.send(data.products)
-})
+
 
 //api from product details - productdetails page
 app.get("/api/products/:id", (req, res) => {
