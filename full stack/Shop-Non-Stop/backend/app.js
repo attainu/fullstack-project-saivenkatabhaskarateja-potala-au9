@@ -3,14 +3,24 @@ import data from './data.js'
 import mongoose from 'mongoose'
 import userRouter from './routers/userRouter.js'
 import productRouter from './routers/productRouter.js'
+import cors from 'cors'
+import dotenv from 'dotenv'
 const port = process.env.PORT || 5000
 const app = express()
+
+dotenv.config()
 
 mongoose.connect(process.env.MONGODB_URL || "mongodb://localhost/ShopNonStop", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
 });
+
+app.use(express.json());
+app.use(express.urlencoded({extended:true}))
+//for parsing and urlencoding
+app.use(cors())
+
 
 //api for users data
 app.use("/api/users", userRouter);

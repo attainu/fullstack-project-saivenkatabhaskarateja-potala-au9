@@ -9,6 +9,7 @@ import {
 
 
 export const productListReducer = (state = {products: [],loading:true,error:false},action) =>{
+    console.log("came to producListReducer");
     switch(action.type){
         case PRODUCT_LIST_REQUEST:
             return {loading:true}
@@ -23,6 +24,7 @@ export const productListReducer = (state = {products: [],loading:true,error:fals
 
 export const productDetailsReducer = (state={product:{},loading:true},action) =>{
 
+    console.log("came to producDetailsReducer");
     switch(action.type){
         case PRODUCT_DETAILS_REQUEST :
             return { loading: true };

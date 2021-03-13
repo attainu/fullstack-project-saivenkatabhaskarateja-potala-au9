@@ -6,7 +6,6 @@ import { addToCart, removeFromCart } from "../redux/actions/cartActions";
 
 const CartPage = (props) =>{
     let productId = props.match.params.id;
-    console.log("productId in cart page",productId)
     let qty = props.location.search ? Number(props.location.search.split("=")[1]) : 1
     const dispatch = useDispatch()
     const cart = useSelector(state => state.cart)
