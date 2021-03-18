@@ -5,6 +5,7 @@ import userRouter from './routers/userRouter.js'
 import productRouter from './routers/productRouter.js'
 import cors from 'cors'
 import dotenv from 'dotenv'
+import orderRouter from './routers/orderRouter.js'
 const port = process.env.PORT || 5000
 const app = express()
 
@@ -21,12 +22,19 @@ app.use(express.urlencoded({extended:true}))
 //for parsing and urlencoding
 app.use(cors())
 
+//api for sending client id for paypal
+app.get('/api/config/paypal',(req,res) =>{
+    res.send(process.env.PAYPAL_CLIENT_ID || 'sb')
+})
 
 //api for users data
 app.use("/api/users", userRouter);
 
 //api for porducts data
 app.use("/api/products",productRouter)
+
+//api for placing orders
+app.use("/api/orders",orderRouter)
 
 app.use((err,req,res,next)=>{
     res.status(500).send({message:err.message})

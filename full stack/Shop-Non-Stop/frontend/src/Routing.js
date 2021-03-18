@@ -4,9 +4,13 @@ import ProductPage from './pages/ProductPage'
 import SinginPage from './pages/SigninPage'
 import CartPage from './pages/CartPage';
 import {signout} from './redux/actions/userActions'
+import ShippingAddressPage from "./pages/ShippingAddressPage";
 import RegisterPage from './pages/RegisterPage'
 import "./index.css";
 import { useSelector , useDispatch } from 'react-redux';
+import PaymentPage from './pages/PaymentPage.';
+import PlaceOrderPage from './pages/PlaceOrderPage';
+import OrderPage from './pages/OrderPage';
 
 const Routing = () =>{
     const cart = useSelector(state => state.cart)
@@ -56,6 +60,10 @@ const Routing = () =>{
             <Route path="/cart/:id?" component={CartPage} />
             <Route path="/signin" component={SinginPage} />
             <Route path="/register" component={RegisterPage} />
+            <Route path="/shipping" component={ShippingAddressPage} />
+            <Route path="/payment" component={PaymentPage}/>
+            <Route path="/placeorder" component={PlaceOrderPage}/>
+            <Route path="/order/:id" component ={OrderPage} />
           </main>
           <footer className="row center">
             <i className="fas fa-copyright copyright"></i>All rights reserved

@@ -1,6 +1,7 @@
 import {createStore,compose,applyMiddleware,combineReducers} from 'redux'
 import thunk from 'redux-thunk'
 import { cartReducer } from '../reducers/cartReducer';
+import { orderCreateReducer, orderDetailsReducer } from '../reducers/orderReducer';
 import { productDetailsReducer , productListReducer} from '../reducers/productReducer';
 import { userRegisterReducer, userSigininReducer } from '../reducers/userReducer';
 
@@ -10,7 +11,9 @@ const reducer = combineReducers({
   productDetails: productDetailsReducer,
   cart: cartReducer,
   userSignin: userSigininReducer,
-  userRegister:userRegisterReducer
+  userRegister: userRegisterReducer,
+  orderCreate: orderCreateReducer,
+  orderDetails: orderDetailsReducer,
 });
 
 
@@ -24,6 +27,10 @@ const initalState = {
     cartItems: sessionStorage.getItem("cartItems")
       ? JSON.parse(sessionStorage.getItem("cartItems"))
       : [],
+    shippingAddress: sessionStorage.getItem("shippingAddress")
+      ? JSON.parse(sessionStorage.getItem("shippingAddress"))
+      : {},
+      paymentMethod:"PayPal"
   },
 };
 

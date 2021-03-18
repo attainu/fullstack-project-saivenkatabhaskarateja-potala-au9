@@ -35,7 +35,8 @@ export const register = (name,email,password,mobile) => async(dispatch,getState)
 
 export const signout = () => (dispatch) =>{
     sessionStorage.removeItem("userInfo");
-    sessionStorage.removeItem("cartItems")
+    sessionStorage.removeItem("cartItems");
+    sessionStorage.removeItem("shippingAddress")
     dispatch({
         type:USER_SIGNOUT
     })

@@ -294,5 +294,19 @@ img.loader{
 
 .form label{
     margin: 1rem 0;
-    display: block;
+
+}
+
+/* checkout steps */
+.checkout-steps > div{
+    border-top : 0.3rem #c0c0c0 solid;
+    color: #c0c0c0;
+    flex: 1;
+    padding: 1rem;
+}
+
+.checkout-steps > div.active{
+    border-top : 0.3rem var(--dblue) solid;
+    color: var(--dblue);
+    font-weight: bold;
 }
