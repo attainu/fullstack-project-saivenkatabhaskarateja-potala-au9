@@ -275,6 +275,10 @@ img.loader{
     color: var(--red);
     background-color: var(--white);
 }
+.alert-success{
+    color: #20a020;
+    background-color: var(--white);
+}
 
 /* form */
 .form{
