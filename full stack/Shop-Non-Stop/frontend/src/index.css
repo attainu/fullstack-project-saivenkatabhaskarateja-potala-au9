@@ -153,6 +153,9 @@ button.block{
     width: 100%;
 }
 
+button.small{
+    font-size: 1.2rem;
+}
 
 /* end of common css */
 a.brand{
@@ -191,7 +194,7 @@ header a{
     position: absolute;
     display: none;
     right: 0;
-    min-width: 12rem;
+    min-width: 15rem;
     padding: 1rem;
     background-color: var(--dblue);
     z-index: 1;
@@ -313,4 +316,25 @@ img.loader{
     border-top : 0.3rem var(--dblue) solid;
     color: var(--dblue);
     font-weight: bold;
+}
+
+/* Table */
+
+.table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table tbody tr:nth-of-type(odd){
+    background-color: #f4f4f4;
+}
+
+.table td , .table th{
+    text-align: left;
+    border : 0.1rem solid #e4e4e4;
+    padding: 0.5rem;
+}
+
+.table button{
+    margin: 0 0.2rem;
 }

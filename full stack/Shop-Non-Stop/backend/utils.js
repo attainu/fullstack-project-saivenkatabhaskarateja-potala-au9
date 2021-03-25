@@ -13,17 +13,17 @@ export const generateToken = (user) =>{
 }
 
 export const isAuth= (req,res,next) =>{
-  console.log("came to order isAuth");
+  console.log("came to isAuth")
   const authorization = req.headers.authorization;
   if(authorization){
     const token = authorization.slice(7,authorization.length);//Bearer xxxxx
     jwt.verify(token,process.env.JWT_SECRET || "somethingsecret",(err,decode)=>{
       if(err){
         res.status(401).send({message:"Invalid Token"})
-        console.log("came here to is auth err")
+  
       }
       else{
-        console.log("came here")
+        console.log("inside success of isAuth")
         req.user = decode;
         next();
       }
@@ -32,4 +32,16 @@ export const isAuth= (req,res,next) =>{
   else{
     res.status(401).send({message:"No Token"})
   }
+}
+
+export const isAdmin = (req,res,next) => {
+    console.log("came to isAdmin")
+    if(req.user && req.user.isAdmin){
+      console.log("inside sucess of isAdmin")
+      next()
+    }
+    else{
+      res.status(401).send({message:"invalid admin token"})
+    }
+
 }

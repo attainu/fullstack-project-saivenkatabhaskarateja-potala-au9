@@ -6,6 +6,8 @@ import productRouter from './routers/productRouter.js'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import orderRouter from './routers/orderRouter.js'
+import uploadRouter from './routers/uploadRouter.js'
+import path from 'path'
 const port = process.env.PORT || 5000
 const app = express()
 
@@ -27,6 +29,22 @@ app.get('/api/config/paypal',(req,res) =>{
     res.send(process.env.PAYPAL_CLIENT_ID || 'sb')
 })
 
+
+//api for image uploads
+app.use('/api/uploads',uploadRouter)
+
+
+//for herokuapp deployment
+const __dirname = path.resolve();
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
+app.get('/', (req, res) => {
+  res.send('Server is ready');
+});
+app.use(express.static(path.join(__dirname, '/frontend/build')));
+
+app.get('*', (req, res) =>
+  res.sendFile(path.join(__dirname, '/frontend/build/index.html')))
+
 //api for users data
 app.use("/api/users", userRouter);
 
@@ -40,10 +58,14 @@ app.use((err,req,res,next)=>{
     res.status(500).send({message:err.message})
 })
 
+
+
+app.use('/uploads',express.static(path.join(__dirname,'/uploads')))
+
 // healthcheck
-app.get('/',(req,res)=>{
-    res.send("server is ready")
-})
+// app.get('/',(req,res)=>{
+//     res.send("server is ready")
+// })
 
 
 
