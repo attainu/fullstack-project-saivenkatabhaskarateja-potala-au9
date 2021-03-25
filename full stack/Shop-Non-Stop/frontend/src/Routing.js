@@ -8,7 +8,7 @@ import ShippingAddressPage from "./pages/ShippingAddressPage";
 import RegisterPage from './pages/RegisterPage'
 import "./index.css";
 import { useSelector , useDispatch } from 'react-redux';
-import PaymentPage from './pages/PaymentPage.';
+import PaymentPage from './pages/PaymentPage';
 import PlaceOrderPage from './pages/PlaceOrderPage';
 import OrderPage from './pages/OrderPage';
 import orderHistoryPage from './pages/OrderHistoryPage'

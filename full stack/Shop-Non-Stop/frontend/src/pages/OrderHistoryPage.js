@@ -54,7 +54,7 @@ const OrderHistoryPage = (props) =>{
                                             </td>
                                             <td>
                                               {order.isDelivered
-                                                ? order.DeliveredAt.substring(
+                                                ? order.deliveredAt.substring(
                                                     0,
                                                     10
                                                   )
