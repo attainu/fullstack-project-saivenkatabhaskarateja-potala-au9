@@ -7,8 +7,11 @@ import { PRODUCT_CREATE_RESET, PRODUCT_DELETE_RESET } from "../redux/actionConst
 
 const ProductListPage = (props) =>{
 
+    const sellerMode = props.match.path.indexOf("/seller") >= 0;
     const productList = useSelector(state => state.productList)
     const { loading, error, products } = productList;
+    const userSignin = useSelector((state) => state.userSignin);
+    const { userInfo } = userSignin;
     const productCreate = useSelector(state => state.productCreate)
     const {
       loading: loadingCreate,
@@ -32,7 +35,7 @@ const ProductListPage = (props) =>{
       if(successDelete){
           dispatch({type:PRODUCT_DELETE_RESET})
       }
-      dispatch(listProducts());
+      dispatch(listProducts({ seller: sellerMode ? userInfo._id : "" }));
     }, [cratedProduct, dispatch, props.history, successCreate, successDelete]);
 
     

@@ -1,10 +1,27 @@
 import express from 'express'
-import { isAuth, isAdmin } from "../utils.js";
+import { isAuth, isAdmin, isSellerOrAdmin } from "../utils.js";
 import expressAsyncHandler from 'express-async-handler'
 import Order from '../models/orderModel.js'
 
 const orderRouter = express.Router()
 
+
+orderRouter.get(
+  "/",
+  isAuth,
+  isSellerOrAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const seller = req.query.seller || "";
+    const sellerFilter = seller ? { seller } : {};
+
+    const orders = await Order.find({ ...sellerFilter }).populate(
+      "user",
+      "name"
+    );
+    console.log("this is order", orders);
+    res.send(orders);
+  })
+);
 orderRouter.get(
   "/mine",
   isAuth,
@@ -23,14 +40,14 @@ orderRouter.post('/',isAuth,expressAsyncHandler(async(req,res)=>{
     else{
         const order = new Order({
           orderItems: req.body.orderItems,
+          seller: req.body.orderItems[0].seller,
           shippingAddress: req.body.shippingAddress,
           paymentMethod: req.body.paymentMethod,
           itemsPrice: req.body.itemsPrice,
           shippingPrice: req.body.shippingPrice,
           taxPrice: req.body.taxPrice,
           totalPrice: req.body.totalPrice,
-          user:req.user._id
-
+          user: req.user._id,
         });
 
         const createdOrder = await order.save()
@@ -51,33 +68,32 @@ orderRouter.get("/:id",isAuth,expressAsyncHandler(async(req,res)=>{
   }
 }))
 
-orderRouter.put('/:id/pay',isAuth,expressAsyncHandler(async(req,res)=>{
-  const order = await Order.findById(req.params.id)
-  console.log(order)
-  if(order){
-    order.isPaid = true;
-    order.paidAt = Date.now();
-    order.paymentResult = {
-      id: req.body.id,
-      status: req.body.status,
-      update_time: req.body.update_time,
-      email_address: req.body.email_address,
-    };
+orderRouter.put(
+  "/:id/pay",
+  isSellerOrAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const order = await Order.findById(req.params.id);
+    console.log(order);
+    if (order) {
+      order.isPaid = true;
+      order.paidAt = Date.now();
+      order.paymentResult = {
+        id: req.body.id,
+        status: req.body.status,
+        update_time: req.body.update_time,
+        email_address: req.body.email_address,
+      };
 
-    const updatedOrder = await order.save();
-    res.send({ message: "order Paid", order: updatedOrder });
-  }
-  else{
-    res.status(404).send({message: 'Order Not Found'})
-  }
-}))
+      const updatedOrder = await order.save();
+      res.send({ message: "order Paid", order: updatedOrder });
+    } else {
+      res.status(404).send({ message: "Order Not Found" });
+    }
+  })
+);
 
 
-orderRouter.get('/',isAuth,isAdmin,expressAsyncHandler(async(req,res)=>{
-  console.log("came to orderlistrouter")
-  const orders = await Order.find({}).populate('user','name')
-  res.send(orders)
-}))
+
 
 orderRouter.delete('/:id',isAuth,isAdmin,expressAsyncHandler(async(req,res)=>{
   const order = await Order.findById(req.params.id);
@@ -93,11 +109,11 @@ orderRouter.delete('/:id',isAuth,isAdmin,expressAsyncHandler(async(req,res)=>{
 orderRouter.put(
   "/:id/deliver",
   isAuth,
-  isAdmin,
+  isSellerOrAdmin,
   expressAsyncHandler(async (req, res) => {
-    console.log("came here to ORDER DELIVERY")
+    console.log("came here to ORDER DELIVERY");
     const order = await Order.findById(req.params.id);
-    console.log("order is in orderDelivery",order)
+    console.log("order is in orderDelivery", order);
     if (order) {
       order.isDelivered = true;
       order.deliveredAt = Date.now();

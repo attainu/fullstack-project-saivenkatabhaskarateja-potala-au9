@@ -7,17 +7,20 @@ import { deleteOrder, listOrders } from "../redux/actions/orderActions"
 
 
 const OrderListPage = (props) =>{
-
+    const sellerMode = props.match.path.indexOf("/seller") >= 0; 
     const orderList = useSelector(state => state.orderList)
     const{loading,error,orders} = orderList
+    console.log("orders in orderlistpage",orders)
+    const userSignin = useSelector((state) => state.userSignin);
+    const { userInfo } = userSignin;
     const dispatch = useDispatch()
     const orderDelete = useSelector(state => state.orderDelete)
     const{loading:loadingDelete,error:errorDelete,success:successDelete} = orderDelete
     useEffect(() => {
         dispatch({ type: ORDER_DELETE_RESET });
-        dispatch(listOrders());
+        dispatch(listOrders({ seller: sellerMode ? userInfo._id : "" }));
       
-    }, [dispatch, successDelete]);
+    }, [dispatch, sellerMode, successDelete, userInfo._id]);
 
     const deleteHandler = (order) =>{
         if(window.confirm("Are you sure to delete")){

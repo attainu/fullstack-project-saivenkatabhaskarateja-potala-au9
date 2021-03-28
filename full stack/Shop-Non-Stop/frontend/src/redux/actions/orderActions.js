@@ -124,14 +124,15 @@ export const listOrderMine = () => async (dispatch,getState) =>{
 }  
 
 
-export const listOrders = () => async(dispatch,getState) =>{
+export const listOrders = ({seller=""}) => async(dispatch,getState) =>{
 
     dispatch({type:ORDER_LIST_REQUEST});
     const{userSignin:{userInfo}} = getState()
     try{
-      const{data} = await axios.get(`/api/orders/`,{
-        headers:{Authorization:`Bearer ${userInfo.token}`}     
-      })
+      const { data } = await axios.get(`/api/orders?seller=${seller}`, {
+        headers: { Authorization: `Bearer ${userInfo.token}` },
+      });
+      console.log("in list orders actoin",data)
       dispatch({ type: ORDER_LIST_SUCCESS, payload: data });
       
     }catch(error){

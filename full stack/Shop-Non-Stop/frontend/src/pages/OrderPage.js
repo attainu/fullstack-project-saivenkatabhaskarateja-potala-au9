@@ -218,7 +218,7 @@ const OrderPage = (props) =>{
                       </>
                     </li>
                   )}
-                  {userInfo.isAdmin && order.isPaid && !order.isDelivered && (
+                  {(userInfo.isAdmin||userInfo.isSeller) && order.isPaid && !order.isDelivered && (
                     <li>
                       {loadingDeliver && <LoadingBox></LoadingBox>}
                       {errorDeliver && <MessageBox variant="danger">{errorDeliver}</MessageBox>}

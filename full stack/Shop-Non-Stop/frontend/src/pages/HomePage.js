@@ -4,8 +4,13 @@ import {useEffect} from 'react'
 import LoadingBox from '../components/LoadingBox'
 import MessageBox from '../components/MessageBox'
 import {listProducts} from "../redux/actions/productActions";
+import React from "react";
+import ImageSlider from '../components/ImageSlider'
+import { SliderData } from "../utils";
+
 
 const HomePage = () => {
+  
 
   const productList =  useSelector(state => {
     return state.productList;
@@ -25,16 +30,21 @@ const HomePage = () => {
      } 
      else {
        return (
-         <div className="row center">
-           {products.map((product) => {
-             return <Product key={product._id} product={product} />;
-           })}
-         </div>
+         <>
+           <div>
+             <ImageSlider slides={SliderData}></ImageSlider>
+           </div>
+           <div className="row center">
+             {products.map((product) => {
+               return <Product key={product._id} product={product} />;
+             })}
+           </div>
+         </>
        );
      }
   }
   useEffect(() => {
-    dispatch(listProducts());
+    dispatch(listProducts({}));
 
     // console.log("came before set loading",loading)
     // setLoading(true)

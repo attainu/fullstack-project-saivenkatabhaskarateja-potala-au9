@@ -4,7 +4,7 @@ import expressAsyncHandler from 'express-async-handler'
 import data from '../data.js'
 import User from '../models/userModel.js'
 import bcrypt from 'bcrypt'
-import {generateToken, isAuth} from '../utils.js'
+import { generateToken, isAuth, isAdmin } from "../utils.js";
 
 const userRouter = express.Router()
 
@@ -33,12 +33,13 @@ userRouter.post('/signin',expressAsyncHandler(async(req,res)=>{
     if(user){
         if(bcrypt.compareSync(req.body.password,user.password)){
             res.send({
-                _id:user._id,
-                name:user.name,
-                email:user.email,
-                isAdmin:user.isAdmin,
-                token:generateToken(user)
-            })
+              _id: user._id,
+              name: user.name,
+              email: user.email,
+              isAdmin: user.isAdmin,
+              isSeller: user.isSeller,
+              token: generateToken(user),
+            });
 
             
         }
@@ -65,6 +66,7 @@ userRouter.post('/register',expressAsyncHandler(async(req,res)=>{
       name: createdUser.name,
       email: createdUser.email,
       isAdmin: createdUser.isAdmin,
+      isSeller: createdUser.isSeller,
       token: generateToken(createdUser),
     });
 }))
@@ -87,18 +89,74 @@ userRouter.put('/profile',isAuth,expressAsyncHandler(async(req,res)=>{
     if(user){
         user.name = req.body.name || user.name;
         user.email = req.body.email || user.email;
+        if (user.isSeller) {
+          user.seller.name = req.body.sellerName || user.seller.name;
+          user.seller.logo = req.body.sellerLogo || user.seller.logo;
+          user.seller.description =
+            req.body.sellerDescription || user.seller.description;
+        }
         if(req.body.password){
             user.password = bcrypt.hashSync(req.body.password,8)
         }
         const updatedUser = await user.save()
         res.send({
-            _id:updatedUser._id,
-            name:updatedUser.name,
-            email:updatedUser.email,
-            isAdmin:updatedUser.isAdmin,
-            token:generateToken(updatedUser)
-
-        })
+          _id: updatedUser._id,
+          name: updatedUser.name,
+          email: updatedUser.email,
+          isAdmin: updatedUser.isAdmin,
+          isSeller: updatedUser.isSeller,
+          token: generateToken(updatedUser),
+        });
     }
 }))
+
+userRouter.get('/',isAuth,isAdmin,expressAsyncHandler(async(req,res)=>{
+    const users = await User.find({});
+    res.send(users);
+}))
+
+userRouter.delete(
+  "/:id",
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
+    console.log(user)
+    if (user) {
+      if (user.email === "admin@gmail.com") {
+        res.status(400).send({ message: "Can Not Delete Main Admin User" });
+        return;
+      }
+      const deleteUser = await user.remove();
+      res.send({ message: "User Deleted", user: deleteUser });
+    } else {
+      res.status(404).send({ message: "User Not Found" });
+    }
+  })
+);
+
+userRouter.put(
+  "/:id",
+  isAuth,
+  isAdmin,
+  expressAsyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
+    if (user) {
+      console.log("user detailsssss",req.body.isSeller, req.body.isAdmin);
+      user.name = req.body.name || user.name;
+      user.email = req.body.email || user.email;
+      user.isSeller =
+        req.body.isSeller === user.isSeller ? user.isSeller : req.body.isSeller;
+      
+      user.isAdmin =
+        req.body.isAdmin === user.isAdmin ? user.isAdmin : req.body.isAdmin;
+      const updatedUser = await user.save();
+      console.log("update user is ",updatedUser)
+      res.send({ message: "User Updated", user: updatedUser });
+    } else {
+      res.status(404).send({ message: "User Not Found" });
+    }
+  })
+);
+
 export default userRouter

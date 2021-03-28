@@ -10,17 +10,17 @@ export const addToCart = (productId,qty) => {
     console.log("get state",getState())
     const {data} = await axios(`/api/products/${productId}`);
     dispatch({
-        type:CART_ADD_ITEM,
-        payload:{
-            name : data.name,
-            image : data.image,
-            price : data.price,
-            countInStock:data.countInStock,
-            product:data._id,
-            qty
-            
-        }
-    })
+      type: CART_ADD_ITEM,
+      payload: {
+        name: data.name,
+        image: data.image,
+        price: data.price,
+        countInStock: data.countInStock,
+        product: data._id,
+        seller: data.seller,
+        qty,
+      },
+    });
     
     sessionStorage.setItem(
       "cartItems",

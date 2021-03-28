@@ -10,8 +10,16 @@ import {
   orderDeleteReducer,
   orderDeliverReducer,
 } from '../reducers/orderReducer';
-import { productCreateReducer, productDeleteReducer, productDetailsReducer , productListReducer, productUpdateReducer} from '../reducers/productReducer';
-import { userDetailsReducer, userRegisterReducer, userSigininReducer, userUpdateProfileReducer } from '../reducers/userReducer';
+import { productCategoryListReducer, productCreateReducer, productDeleteReducer, productDetailsReducer , productListReducer, productUpdateReducer} from '../reducers/productReducer';
+import {
+  userDetailsReducer,
+  userListReducer,
+  userRegisterReducer,
+  userSigininReducer,
+  userUpdateProfileReducer,
+  userDeleteReducer,
+  userUpdateReducer,
+ } from "../reducers/userReducer";
 
 
 const reducer = combineReducers({
@@ -25,13 +33,17 @@ const reducer = combineReducers({
   orderPay: orderPayReducer,
   orderMineList: orderMineListReducer,
   userDetails: userDetailsReducer,
+  userUpdate: userUpdateReducer,
   userUpdateProfile: userUpdateProfileReducer,
   productCreate: productCreateReducer,
   productUpdate: productUpdateReducer,
   productDelete: productDeleteReducer,
   orderList: orderListReducer,
   orderDelete: orderDeleteReducer,
-  orderDeliver : orderDeliverReducer,
+  orderDeliver: orderDeliverReducer,
+  userList: userListReducer,
+  userDelete: userDeleteReducer,
+  productCategoryList: productCategoryListReducer,
 });
 
 

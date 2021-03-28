@@ -6,7 +6,7 @@ import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 
 const RegisterPage = (props) =>{
-
+    console.log("came to sigin page introdiction")
     const redirect = props.location.search? props.location.search.split("=")[1]:"/"
     const userRegister = useSelector((state) => state.userRegister);
     const { userInfo, loading, error } = userRegister;
@@ -33,6 +33,7 @@ const RegisterPage = (props) =>{
 
     useEffect(() => {
       if (userInfo) {
+        console.log("came to register page useEffect",userInfo);
         props.history.push(redirect);
       }
     }, [props.history, redirect, userInfo]);
